@@ -1,4 +1,4 @@
-package com.udacity.asteroidradar.data.api
+package com.udacity.asteroidradar.data.api.util
 
 import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.util.Constants

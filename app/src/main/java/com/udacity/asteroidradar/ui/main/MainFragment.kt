@@ -31,6 +31,8 @@ class MainFragment : Fragment() {
             }
         })
 
+        viewModel.getAsteroids()
+
         return binding.root
     }
 }

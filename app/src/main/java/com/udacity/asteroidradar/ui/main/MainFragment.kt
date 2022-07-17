@@ -1,38 +1,63 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.os.Bundle
-import android.view.*
-import androidx.core.view.MenuProvider
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import coil.load
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
+import com.udacity.asteroidradar.ui.main.adapter.MainAdapter
+import com.udacity.asteroidradar.ui.main.util.fragmentMainMenuProvider
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
 
+    private val binding: FragmentMainBinding by lazy {
+        FragmentMainBinding.inflate(layoutInflater)
+    }
     private val viewModel: MainViewModel by viewModels()
+    private val adapter by lazy { MainAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentMainBinding.inflate(inflater)
+    ): View = binding.root
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this
 
         binding.viewModel = viewModel
 
-        requireActivity().addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.main_overflow_menu, menu)
+        requireActivity().addMenuProvider(fragmentMainMenuProvider)
+
+        collectImageOfDay()
+        collectAsteroids()
+    }
+
+    private fun collectImageOfDay() = lifecycleScope.launch {
+        viewModel.pictureOfDay.collectLatest {
+            binding.activityMainImageOfTheDay.load(it.url) {
+                crossfade(CROSSFADE_DURATION)
+                placeholder(R.drawable.placeholder_picture_of_day)
             }
+        }
+    }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return true
-            }
-        })
+    private fun collectAsteroids() = lifecycleScope.launch {
+        viewModel.asteroids.collectLatest { asteroids ->
+            adapter.submitList(asteroids)
+            println(asteroids)
+        }
+    }
 
-        viewModel.getAsteroids()
-
-        return binding.root
+    private companion object {
+        const val CROSSFADE_DURATION = 400
     }
 }

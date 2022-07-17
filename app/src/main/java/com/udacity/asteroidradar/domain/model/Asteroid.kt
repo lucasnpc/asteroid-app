@@ -11,10 +11,50 @@ data class Asteroid(
     val id: String,
     @SerializedName("name")
     val codename: String,
-    val closeApproachDate: String,
-    @SerializedName("absolute_magnitude_h") val absoluteMagnitude: Double,
-    val estimatedDiameter: Double,
-    @SerializedName("relative_velocity") val relativeVelocity: Double,
-    val distanceFromEarth: Double,
+    @SerializedName("close_approach_data")
+    val closeAproachData: List<CloseAproachData>,
+    @SerializedName("absolute_magnitude_h")
+    val absoluteMagnitude: Double,
+    @SerializedName("estimated_diameter")
+    val estimatedDiameterData: EstimatedDiameterData,
     @SerializedName("is_potentially_hazardous_asteroid") val isPotentiallyHazardous: Boolean
+) : Parcelable
+
+@Parcelize
+@Serializable
+data class CloseAproachData(
+    @SerializedName("close_approach_date")
+    val closeApproachDate: String,
+    @SerializedName("relative_velocity")
+    val relativeVelocity: RelativeVelocityData,
+    @SerializedName("miss_distance")
+    val missDistanceToEarth: MissDistance
+) : Parcelable
+
+@Parcelize
+@Serializable
+data class RelativeVelocityData(
+    @SerializedName("kilometers_per_hour") val kilometersPerHour: Double,
+) : Parcelable
+
+@Parcelize
+@Serializable
+data class MissDistance(
+    val kilometers: Double
+) : Parcelable
+
+@Parcelize
+@Serializable
+data class EstimatedDiameterData(
+    @SerializedName("kilometers")
+    val diameterInMeters: Diameter
+) : Parcelable
+
+@Parcelize
+@Serializable
+data class Diameter(
+    @SerializedName("estimated_diameter_min")
+    val estimatedDiameterMin: Double,
+    @SerializedName("estimated_diameter_max")
+    val estimatedDiameterMax: Double
 ) : Parcelable

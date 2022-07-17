@@ -1,16 +1,20 @@
 package com.udacity.asteroidradar.domain.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
+@Serializable
 data class Asteroid(
-    val id: Long,
+    val id: String,
+    @SerializedName("name")
     val codename: String,
     val closeApproachDate: String,
-    val absoluteMagnitude: Double,
+    @SerializedName("absolute_magnitude_h") val absoluteMagnitude: Double,
     val estimatedDiameter: Double,
-    val relativeVelocity: Double,
+    @SerializedName("relative_velocity") val relativeVelocity: Double,
     val distanceFromEarth: Double,
-    val isPotentiallyHazardous: Boolean
+    @SerializedName("is_potentially_hazardous_asteroid") val isPotentiallyHazardous: Boolean
 ) : Parcelable

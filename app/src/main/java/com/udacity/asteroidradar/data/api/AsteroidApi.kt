@@ -12,7 +12,7 @@ interface AsteroidApiService {
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("api_key") apiKey: String
-    ): Any
+    ): AsteroidResponse
 
     @GET(Constants.IMAGE_OF_DAY_URL)
     suspend fun getImageOfDay(@Query("api_key") apiKey: String): PictureOfDay

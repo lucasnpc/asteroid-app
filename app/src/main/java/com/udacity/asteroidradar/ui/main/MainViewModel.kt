@@ -15,8 +15,8 @@ class MainViewModel : ViewModel() {
     private val _pictureOfDay = MutableStateFlow(PictureOfDay())
     val pictureOfDay: StateFlow<PictureOfDay> = _pictureOfDay
 
-    private val _asteroids = MutableStateFlow<List<Asteroid>>(listOf())
-    val asteroids: StateFlow<List<Asteroid>> = _asteroids
+    private val _asteroids = MutableStateFlow<Collection<List<Asteroid>>>(listOf())
+    val asteroids: StateFlow<Collection<List<Asteroid>>> = _asteroids
 
     init {
         getImageOfDay()
@@ -31,9 +31,7 @@ class MainViewModel : ViewModel() {
                     endDate = "2022-07-14",
                     apiKey = API_KEY
                 )
-                asteroids.nearEarthObjects.values.toList().forEach {
-                    _asteroids.emit(it)
-                }
+                _asteroids.emit(asteroids.nearEarthObjects.values)
             } catch (e: Exception) {
                 println(e.message.toString())
             }

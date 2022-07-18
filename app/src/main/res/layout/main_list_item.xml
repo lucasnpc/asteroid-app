@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
+        <variable
+            name="asteroid"
+            type="com.udacity.asteroidradar.domain.model.Asteroid" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <TextView
+            android:id="@+id/asteroid_codename"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{asteroid.codename}"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/view_asteroid_status"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/view_asteroid_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/asteroid_status"
+            android:src="@{asteroid.isPotentiallyHazardous ? @drawable/ic_status_normal : @drawable/ic_status_potentially_hazardous}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/asteroid_aproach_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{asteroid.closeAproachData[0].closeApproachDate}"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/view_asteroid_status"
+            app:layout_constraintTop_toBottomOf="@id/asteroid_codename" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

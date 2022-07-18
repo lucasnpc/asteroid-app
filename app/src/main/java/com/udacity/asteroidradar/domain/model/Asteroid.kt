@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class Asteroid(
+data class  Asteroid(
     val id: String,
     @SerializedName("name")
     val codename: String,

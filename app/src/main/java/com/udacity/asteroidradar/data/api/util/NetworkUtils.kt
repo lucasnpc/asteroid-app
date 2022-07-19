@@ -1,12 +1,10 @@
 package com.udacity.asteroidradar.data.api.util
 
-import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.util.Constants
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
+fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()

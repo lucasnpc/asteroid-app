@@ -1,6 +1,5 @@
 package com.udacity.asteroidradar.data.api
 
-import com.udacity.asteroidradar.data.api.util.RetrofitInit
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 import com.udacity.asteroidradar.util.Constants
 import retrofit2.http.GET
@@ -16,8 +15,4 @@ interface AsteroidApiService {
 
     @GET(Constants.IMAGE_OF_DAY_URL)
     suspend fun getImageOfDay(@Query("api_key") apiKey: String): PictureOfDay
-}
-
-object AsteroidApi {
-    val service: AsteroidApiService by lazy { RetrofitInit.retrofit.create(AsteroidApiService::class.java) }
 }

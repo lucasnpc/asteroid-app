@@ -13,9 +13,11 @@ import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.ui.main.adapter.MainAdapter
 import com.udacity.asteroidradar.ui.main.util.fragmentMainMenuProvider
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private val binding: FragmentMainBinding by lazy {

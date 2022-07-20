@@ -8,14 +8,15 @@ import com.udacity.asteroidradar.databinding.MainListItemBinding
 import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.ui.main.util.DiffCallback
 
-class MainAdapter :
+class MainAdapter(private val callback: (Asteroid) -> Unit) :
     ListAdapter<Asteroid, MainAdapter.ViewHolder>(DiffCallback) {
 
     inner class ViewHolder(private val binding: MainListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Asteroid?) {
-            item.let { asteroid ->
+            item?.let { asteroid ->
                 binding.asteroid = asteroid
+                binding.asteroidContainer.setOnClickListener { callback(asteroid) }
             }
         }
     }

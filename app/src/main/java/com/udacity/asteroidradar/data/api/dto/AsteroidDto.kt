@@ -34,13 +34,13 @@ data class CloseAproachData(
 @Parcelize
 @Serializable
 data class RelativeVelocityData(
-    @SerializedName("kilometers_per_hour") val kilometersPerHour: Double,
+    @SerializedName("kilometers_per_second") val kilometersPerSecond: Double,
 ) : Parcelable
 
 @Parcelize
 @Serializable
 data class MissDistance(
-    val kilometers: Double
+    val astronomical: Double
 ) : Parcelable
 
 @Parcelize

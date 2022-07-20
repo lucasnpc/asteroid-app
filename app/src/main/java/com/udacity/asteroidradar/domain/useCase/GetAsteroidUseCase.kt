@@ -36,8 +36,8 @@ class GetAsteroidUseCase(private val repository: AsteroidRadarRepository) {
                     estimatedDiameter = estimatedDiameterData.diameterInMeters.let { (diameterMin, diameterMax) ->
                         (diameterMax + diameterMin) / 2
                     },
-                    relativeVelocity = closeAproachData[0].relativeVelocity.kilometersPerHour,
-                    distanceFromEarth = closeAproachData[0].missDistanceToEarth.kilometers,
+                    relativeVelocity = closeAproachData[0].relativeVelocity.kilometersPerSecond,
+                    distanceFromEarth = closeAproachData[0].missDistanceToEarth.astronomical,
                     isPotentiallyHazardous = isPotentiallyHazardous
                 )
 

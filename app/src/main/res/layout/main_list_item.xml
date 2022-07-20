@@ -40,7 +40,7 @@
             android:id="@+id/asteroid_aproach_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{asteroid.closeAproachData[0].closeApproachDate}"
+            android:text="@{asteroid.closeApproachDate}"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -18,8 +18,8 @@ class MainViewModel @Inject constructor(private val asteroidRadarUseCases: Aster
     private val _pictureOfDay = MutableStateFlow(PictureOfDay())
     val pictureOfDay: StateFlow<PictureOfDay> = _pictureOfDay
 
-    private val _asteroids = MutableStateFlow<Collection<List<Asteroid>>>(listOf())
-    val asteroids: StateFlow<Collection<List<Asteroid>>> = _asteroids
+    private val _asteroids = MutableStateFlow<List<Asteroid>>(listOf())
+    val asteroids: StateFlow<List<Asteroid>> = _asteroids
 
     init {
         getImageOfDay()

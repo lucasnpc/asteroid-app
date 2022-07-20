@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
-import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.ui.main.adapter.MainAdapter
 import com.udacity.asteroidradar.ui.main.util.fragmentMainMenuProvider
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,15 +54,9 @@ class MainFragment : Fragment() {
 
     private fun collectAsteroids() = lifecycleScope.launch {
         viewModel.asteroids.collectLatest { asteroids ->
-            val array: ArrayList<Asteroid> = ArrayList()
-            asteroids.forEach { asteroidArray ->
-                asteroidArray.forEach {
-                    array.add(it)
-                }
-            }
             when {
-                array.size > 0 -> {
-                    adapter.submitList(array)
+                asteroids.isNotEmpty() -> {
+                    adapter.submitList(asteroids)
                     binding.asteroidRecycler.adapter = adapter
                 }
             }

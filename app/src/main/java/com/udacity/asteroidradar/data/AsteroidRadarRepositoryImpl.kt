@@ -2,12 +2,14 @@ package com.udacity.asteroidradar.data
 
 import com.udacity.asteroidradar.data.api.AsteroidApiService
 import com.udacity.asteroidradar.data.api.AsteroidResponse
+import com.udacity.asteroidradar.data.local.AsteroidDatabase
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 import com.udacity.asteroidradar.util.Constants
 
 class AsteroidRadarRepositoryImpl(
-    private val service: AsteroidApiService
+    private val service: AsteroidApiService,
+    private val database: AsteroidDatabase
 ) : AsteroidRadarRepository {
     override suspend fun getAsteroids(
         startDate: String,

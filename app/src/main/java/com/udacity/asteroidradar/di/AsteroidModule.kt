@@ -1,7 +1,10 @@
 package com.udacity.asteroidradar.di
 
+import android.app.Application
+import androidx.room.Room
 import com.udacity.asteroidradar.data.AsteroidRadarRepositoryImpl
 import com.udacity.asteroidradar.data.api.AsteroidApiService
+import com.udacity.asteroidradar.data.local.AsteroidDatabase
 import com.udacity.asteroidradar.domain.AsteroidRadarUseCases
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
 import com.udacity.asteroidradar.domain.useCase.GetAsteroidUseCase
@@ -18,11 +21,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AsteroidModule {
-//    @Provides
-//    @Singleton
-//    fun provideDatabase(app: Application): AsteroidDatabase =
-//        Room.databaseBuilder(app, AsteroidDatabase::class.java, AsteroidDatabase.DATABASE_NAME)
-//            .build()
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): AsteroidDatabase =
+        Room.databaseBuilder(app, AsteroidDatabase::class.java, AsteroidDatabase.DATABASE_NAME)
+            .build()
 
     @Provides
     @Singleton
@@ -37,8 +40,8 @@ object AsteroidModule {
     @Singleton
     fun provideRepository(
         service: AsteroidApiService,
-//        database: AsteroidDatabase
-    ): AsteroidRadarRepository = AsteroidRadarRepositoryImpl(service)
+        database: AsteroidDatabase
+    ): AsteroidRadarRepository = AsteroidRadarRepositoryImpl(service, database)
 
     @Provides
     @Singleton

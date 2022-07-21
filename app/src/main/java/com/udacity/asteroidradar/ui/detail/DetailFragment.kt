@@ -8,15 +8,24 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentDetailBinding
+import com.udacity.asteroidradar.ui.main.util.fragmentMainMenuProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
+
+    private val binding by lazy {
+        FragmentDetailBinding.inflate(layoutInflater)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val binding = FragmentDetailBinding.inflate(inflater)
+    ): View = binding.root
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         binding.lifecycleOwner = this
 
         val asteroid = DetailFragmentArgs.fromBundle(arguments!!).selectedAsteroid
@@ -27,7 +36,7 @@ class DetailFragment : Fragment() {
             displayAstronomicalUnitExplanationDialog()
         }
 
-        return binding.root
+        requireActivity().removeMenuProvider(fragmentMainMenuProvider)
     }
 
     private fun displayAstronomicalUnitExplanationDialog() {

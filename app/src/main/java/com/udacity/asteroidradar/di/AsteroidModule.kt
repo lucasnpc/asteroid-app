@@ -2,6 +2,8 @@ package com.udacity.asteroidradar.di
 
 import android.app.Application
 import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.data.AsteroidRadarRepositoryImpl
 import com.udacity.asteroidradar.data.api.AsteroidApiService
 import com.udacity.asteroidradar.data.local.AsteroidDatabase
@@ -15,12 +17,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AsteroidModule {
+
     @Provides
     @Singleton
     fun provideDatabase(app: Application): AsteroidDatabase =
@@ -32,7 +35,13 @@ object AsteroidModule {
     fun provideService(): AsteroidApiService =
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                MoshiConverterFactory.create(
+                    Moshi.Builder()
+                        .add(KotlinJsonAdapterFactory())
+                        .build()
+                )
+            )
             .build()
             .create(AsteroidApiService::class.java)
 

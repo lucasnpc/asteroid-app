@@ -43,6 +43,7 @@ class MainFragment : Fragment() {
         binding.viewModel = viewModel
 
         requireActivity().addMenuProvider(fragmentMainMenuProvider)
+        binding.tryAgainButton.setOnClickListener { viewModel.getAsteroids() }
 
         collectImageOfDay()
         collectAsteroids()
@@ -53,19 +54,33 @@ class MainFragment : Fragment() {
             binding.activityMainImageOfTheDay.load(it.url) {
                 crossfade(CROSSFADE_DURATION)
                 placeholder(R.drawable.placeholder_picture_of_day)
+                error(R.drawable.placeholder_picture_of_day)
             }
         }
     }
 
     private fun collectAsteroids() = lifecycleScope.launch {
-        viewModel.asteroids.collectLatest { asteroids ->
+        viewModel.mainState.collectLatest { state ->
             when {
-                asteroids.isNotEmpty() -> {
-                    adapter.submitList(asteroids)
+                state.loading -> {
+                    setVisibility(loading = true)
+                }
+                state.failed -> {
+                    setVisibility(error = true)
+                }
+                state.asteroids.isNotEmpty() -> {
+                    setVisibility()
+                    adapter.submitList(state.asteroids)
                     binding.asteroidRecycler.adapter = adapter
                 }
             }
         }
+    }
+
+    private fun setVisibility(loading: Boolean = false, error: Boolean = false) {
+        binding.statusLoadingWheel.visibility = if (loading) View.VISIBLE else View.GONE
+        binding.someErrorTv.visibility = if (error) View.VISIBLE else View.GONE
+        binding.tryAgainButton.visibility = if (error) View.VISIBLE else View.GONE
     }
 
     private companion object {

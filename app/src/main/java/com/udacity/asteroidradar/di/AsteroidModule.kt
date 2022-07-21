@@ -11,6 +11,7 @@ import com.udacity.asteroidradar.domain.AsteroidRadarUseCases
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
 import com.udacity.asteroidradar.domain.useCase.GetAsteroidUseCase
 import com.udacity.asteroidradar.domain.useCase.GetImageOfDayUseCase
+import com.udacity.asteroidradar.domain.useCase.SaveAsteroidsUseCase
 import com.udacity.asteroidradar.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -57,6 +58,7 @@ object AsteroidModule {
     fun provideUseCases(repository: AsteroidRadarRepository): AsteroidRadarUseCases =
         AsteroidRadarUseCases(
             getImageOfDayUseCase = GetImageOfDayUseCase(repository),
-            getAsteroidUseCase = GetAsteroidUseCase(repository)
+            getAsteroidUseCase = GetAsteroidUseCase(repository),
+            saveAsteroidsUseCase = SaveAsteroidsUseCase(repository)
         )
 }

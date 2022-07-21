@@ -4,6 +4,7 @@ import com.udacity.asteroidradar.data.api.AsteroidApiService
 import com.udacity.asteroidradar.data.api.AsteroidResponse
 import com.udacity.asteroidradar.data.local.AsteroidDatabase
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
+import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 import com.udacity.asteroidradar.util.Constants
 
@@ -16,12 +17,17 @@ class AsteroidRadarRepositoryImpl(
         endDate: String
     ): AsteroidResponse =
         service.getAsteroids(
-            startDate = "2022-07-07",
-            endDate = "2022-07-14",
+            startDate = startDate,
+            endDate = endDate,
             apiKey = Constants.API_KEY
         )
 
     override suspend fun getImageDay(): PictureOfDay =
         service.getImageOfDay(Constants.API_KEY)
 
+    override suspend fun saveAsteroids(list: List<Asteroid>) {
+        list.forEach {
+            database.asteroidDao.insertAsteroid(it)
+        }
+    }
 }

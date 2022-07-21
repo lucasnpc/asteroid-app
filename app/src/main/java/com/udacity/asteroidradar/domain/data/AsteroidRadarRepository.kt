@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.domain.data
 
 import com.udacity.asteroidradar.data.api.AsteroidResponse
+import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 
 interface AsteroidRadarRepository {
@@ -10,4 +11,6 @@ interface AsteroidRadarRepository {
     ): AsteroidResponse
 
     suspend fun getImageDay(): PictureOfDay
+
+    suspend fun saveAsteroids(list: List<Asteroid>)
 }

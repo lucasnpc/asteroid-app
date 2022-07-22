@@ -5,13 +5,12 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.udacity.asteroidradar.domain.model.Asteroid
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AsteroidDao {
 
     @Query("SELECT * FROM Asteroid")
-    fun getAsteroids(): Flow<List<Asteroid>>
+    fun getAsteroids(): List<Asteroid>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAsteroid(vararg asteroid: Asteroid)

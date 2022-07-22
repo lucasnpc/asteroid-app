@@ -1,11 +1,11 @@
 package com.udacity.asteroidradar.domain
 
-import com.udacity.asteroidradar.domain.useCase.GetAsteroidUseCase
-import com.udacity.asteroidradar.domain.useCase.GetImageOfDayUseCase
-import com.udacity.asteroidradar.domain.useCase.SaveAsteroidsUseCase
+import com.udacity.asteroidradar.domain.useCase.*
 
 data class AsteroidRadarUseCases(
     val getImageOfDayUseCase: GetImageOfDayUseCase,
     val getAsteroidUseCase: GetAsteroidUseCase,
-    val saveAsteroidsUseCase: SaveAsteroidsUseCase
+    val saveAsteroidsUseCase: SaveAsteroidsUseCase,
+    val getTodayAsteroidUseCase: GetTodayAsteroidUseCase,
+    val getSavedAsteroidUseCase: GetSavedAsteroidUseCase
 )

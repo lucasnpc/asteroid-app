@@ -1,9 +1,8 @@
 package com.udacity.asteroidradar.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,7 +11,6 @@ import coil.load
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.ui.main.adapter.MainAdapter
-import com.udacity.asteroidradar.ui.main.util.fragmentMainMenuProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,6 +28,29 @@ class MainFragment : Fragment() {
         }
     }
 
+    private val mainMenuListener = object :
+        MenuProvider {
+
+        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            menuInflater.inflate(R.menu.main_overflow_menu, menu)
+        }
+
+        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+            when (menuItem.itemId) {
+                R.id.show_all_menu -> {
+                    viewModel.getAsteroids()
+                }
+                R.id.show_rent_menu -> {
+                    viewModel.getTodayAsteroids()
+                }
+                R.id.show_buy_menu -> {
+                    viewModel.getSavedAsteroids()
+                }
+            }
+            return true
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +63,7 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        requireActivity().addMenuProvider(fragmentMainMenuProvider)
+        requireActivity().addMenuProvider(mainMenuListener, viewLifecycleOwner)
         binding.tryAgainButton.setOnClickListener { viewModel.getAsteroids() }
 
         collectImageOfDay()
@@ -63,6 +84,7 @@ class MainFragment : Fragment() {
         viewModel.mainState.collectLatest { state ->
             when {
                 state.loading -> {
+                    adapter.submitList(listOf())
                     setVisibility(loading = true)
                 }
                 state.failed -> {

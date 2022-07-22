@@ -9,9 +9,7 @@ import com.udacity.asteroidradar.data.api.AsteroidApiService
 import com.udacity.asteroidradar.data.local.AsteroidDatabase
 import com.udacity.asteroidradar.domain.AsteroidRadarUseCases
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
-import com.udacity.asteroidradar.domain.useCase.GetAsteroidUseCase
-import com.udacity.asteroidradar.domain.useCase.GetImageOfDayUseCase
-import com.udacity.asteroidradar.domain.useCase.SaveAsteroidsUseCase
+import com.udacity.asteroidradar.domain.useCase.*
 import com.udacity.asteroidradar.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -59,6 +57,8 @@ object AsteroidModule {
         AsteroidRadarUseCases(
             getImageOfDayUseCase = GetImageOfDayUseCase(repository),
             getAsteroidUseCase = GetAsteroidUseCase(repository),
-            saveAsteroidsUseCase = SaveAsteroidsUseCase(repository)
+            saveAsteroidsUseCase = SaveAsteroidsUseCase(repository),
+            getTodayAsteroidUseCase = GetTodayAsteroidUseCase(repository),
+            getSavedAsteroidUseCase = GetSavedAsteroidUseCase(repository)
         )
 }

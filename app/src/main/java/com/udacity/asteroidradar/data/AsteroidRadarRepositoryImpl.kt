@@ -7,6 +7,7 @@ import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
 import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 import com.udacity.asteroidradar.util.Constants
+import kotlinx.coroutines.flow.Flow
 
 class AsteroidRadarRepositoryImpl(
     private val service: AsteroidApiService,
@@ -30,4 +31,8 @@ class AsteroidRadarRepositoryImpl(
             database.asteroidDao.insertAsteroid(it)
         }
     }
+
+    override suspend fun getSavedAsteroids(): List<Asteroid> =
+        database.asteroidDao.getAsteroids()
+
 }

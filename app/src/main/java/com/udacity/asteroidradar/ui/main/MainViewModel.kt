@@ -3,7 +3,6 @@ package com.udacity.asteroidradar.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.domain.AsteroidRadarUseCases
-import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.domain.model.PictureOfDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +20,6 @@ class MainViewModel @Inject constructor(private val asteroidRadarUseCases: Aster
 
     private val _mainState = MutableStateFlow(MainFragmentState())
     val mainState: StateFlow<MainFragmentState> = _mainState
-
-    private val _asteroids = MutableStateFlow<List<Asteroid>>(listOf())
-    val asteroids: StateFlow<List<Asteroid>> = _asteroids
 
     init {
         getImageOfDay()
@@ -46,6 +42,30 @@ class MainViewModel @Inject constructor(private val asteroidRadarUseCases: Aster
     private fun getImageOfDay() {
         viewModelScope.launch {
             _pictureOfDay.emit(asteroidRadarUseCases.getImageOfDayUseCase())
+        }
+    }
+
+    fun getTodayAsteroids() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _mainState.emit(MainFragmentState(loading = true))
+            val list = asteroidRadarUseCases.getTodayAsteroidUseCase()
+            if (list.isNotEmpty()) {
+                _mainState.emit(MainFragmentState(asteroids = list))
+                return@launch
+            }
+            _mainState.emit(MainFragmentState(failed = true))
+        }
+    }
+
+    fun getSavedAsteroids() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _mainState.emit(MainFragmentState(loading = true))
+            val list = asteroidRadarUseCases.getSavedAsteroidUseCase()
+            if (list.isNotEmpty()) {
+                _mainState.emit(MainFragmentState(asteroids = list))
+                return@launch
+            }
+            _mainState.emit(MainFragmentState(failed = true))
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.udacity.asteroidradar.data.api.util
 
+import com.udacity.asteroidradar.data.api.dto.AsteroidDto
+import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.util.Constants
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,4 +18,26 @@ fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     }
 
     return formattedDateList
+}
+
+fun convertToAsteroidList(
+    asteroids: List<AsteroidDto>,
+    array: ArrayList<Asteroid>
+): Unit = asteroids.forEach { asteroid ->
+    with(asteroid) {
+        array.add(
+            Asteroid(
+                id = id.toLong(),
+                codename = codename,
+                closeApproachDate = closeAproachData[0].closeApproachDate,
+                absoluteMagnitude = absoluteMagnitude,
+                estimatedDiameter = estimatedDiameterData.diameterInMeters.let { (diameterMin, diameterMax) ->
+                    (diameterMax + diameterMin) / 2
+                },
+                relativeVelocity = closeAproachData[0].relativeVelocity.kilometersPerSecond,
+                distanceFromEarth = closeAproachData[0].missDistanceToEarth.astronomical,
+                isPotentiallyHazardous = isPotentiallyHazardous
+            )
+        )
+    }
 }

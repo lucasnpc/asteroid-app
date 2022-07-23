@@ -4,7 +4,10 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.udacity.asteroidradar.domain.AsteroidRadarUseCases
+import com.udacity.asteroidradar.data.api.util.convertToAsteroidList
+import com.udacity.asteroidradar.data.api.util.getNextSevenDaysFormattedDates
+import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
+import com.udacity.asteroidradar.domain.model.Asteroid
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import retrofit2.HttpException
@@ -13,7 +16,7 @@ import retrofit2.HttpException
 class FetchAsteroidsWork @AssistedInject constructor(
     @Assisted applicationContext: Context,
     @Assisted params: WorkerParameters,
-    private val asteroidRadarUseCases: AsteroidRadarUseCases
+    private val repository: AsteroidRadarRepository
 ) :
     CoroutineWorker(applicationContext, params) {
     companion object {
@@ -22,9 +25,15 @@ class FetchAsteroidsWork @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            val list = asteroidRadarUseCases.getAsteroidUseCase()
-            if (list.isNotEmpty()) {
-                asteroidRadarUseCases.saveAsteroidsUseCase(list)
+            val array: ArrayList<Asteroid> = ArrayList()
+            repository.getAsteroids(
+                startDate = getNextSevenDaysFormattedDates().first(),
+                endDate = getNextSevenDaysFormattedDates().last()
+            ).nearEarthObjects.values.forEach { asteroids ->
+                convertToAsteroidList(asteroids, array)
+            }
+            if (array.isNotEmpty()) {
+                repository.saveAsteroids(array)
             }
             Result.success()
         } catch (e: HttpException) {

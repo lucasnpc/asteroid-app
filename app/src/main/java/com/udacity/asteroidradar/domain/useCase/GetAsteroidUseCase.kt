@@ -1,6 +1,6 @@
 package com.udacity.asteroidradar.domain.useCase
 
-import com.udacity.asteroidradar.data.api.dto.AsteroidDto
+import com.udacity.asteroidradar.data.api.util.convertToAsteroidList
 import com.udacity.asteroidradar.data.api.util.getNextSevenDaysFormattedDates
 import com.udacity.asteroidradar.domain.data.AsteroidRadarRepository
 import com.udacity.asteroidradar.domain.model.Asteroid
@@ -19,29 +19,6 @@ class GetAsteroidUseCase(private val repository: AsteroidRadarRepository) {
         } catch (e: Exception) {
             println(e.message.toString())
             listOf()
-        }
-    }
-
-    private fun convertToAsteroidList(
-        asteroids: List<AsteroidDto>,
-        array: ArrayList<Asteroid>
-    ) = asteroids.forEach { asteroid ->
-        with(asteroid) {
-            array.add(
-                Asteroid(
-                    id = id.toLong(),
-                    codename = codename,
-                    closeApproachDate = closeAproachData[0].closeApproachDate,
-                    absoluteMagnitude = absoluteMagnitude,
-                    estimatedDiameter = estimatedDiameterData.diameterInMeters.let { (diameterMin, diameterMax) ->
-                        (diameterMax + diameterMin) / 2
-                    },
-                    relativeVelocity = closeAproachData[0].relativeVelocity.kilometersPerSecond,
-                    distanceFromEarth = closeAproachData[0].missDistanceToEarth.astronomical,
-                    isPotentiallyHazardous = isPotentiallyHazardous
-                )
-
-            )
         }
     }
 }

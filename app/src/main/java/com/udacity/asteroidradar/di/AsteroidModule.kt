@@ -14,6 +14,8 @@ import com.udacity.asteroidradar.util.Constants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -51,8 +53,14 @@ object AsteroidModule {
         database: AsteroidDatabase
     ): AsteroidRadarRepository = AsteroidRadarRepositoryImpl(service, database)
 
+
+}
+
+@Module
+@InstallIn(ViewModelComponent::class)
+object ViewmodelModule {
     @Provides
-    @Singleton
+    @ViewModelScoped
     fun provideUseCases(repository: AsteroidRadarRepository): AsteroidRadarUseCases =
         AsteroidRadarUseCases(
             getImageOfDayUseCase = GetImageOfDayUseCase(repository),

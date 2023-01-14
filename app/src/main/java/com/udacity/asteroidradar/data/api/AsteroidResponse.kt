@@ -12,6 +12,6 @@ data class AsteroidResponse(
 
 data class Link(
     val next: String,
-    val prev: String,
+    val previous: String,
     val self: String
 )

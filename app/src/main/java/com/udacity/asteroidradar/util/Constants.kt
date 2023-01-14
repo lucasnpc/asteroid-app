@@ -7,4 +7,6 @@ object Constants {
     const val IMAGE_OF_DAY_URL = "planetary/apod"
     const val API_QUERY_DATE_FORMAT = "YYYY-MM-dd"
     const val DEFAULT_END_DATE_DAYS = 7
+    const val AUTHORITY = "com.udacity.asteroidradar.provider"
+    const val PROVIDER_URL = "content://$AUTHORITY/asteroids"
 }

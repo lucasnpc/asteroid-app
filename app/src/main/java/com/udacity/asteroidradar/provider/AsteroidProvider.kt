@@ -9,17 +9,15 @@ import android.net.Uri
 import androidx.room.Room
 import com.udacity.asteroidradar.data.local.AsteroidDatabase
 import com.udacity.asteroidradar.data.local.dao.AsteroidDao
-import com.udacity.asteroidradar.domain.model.Asteroid
 import com.udacity.asteroidradar.util.Constants.AUTHORITY
-
-private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
-    addURI(AUTHORITY, "asteroids", 1)
-}
 
 class AsteroidProvider : ContentProvider() {
 
     private var asteroidDatabase: AsteroidDatabase? = null
     private var asteroidDao: AsteroidDao? = null
+    private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
+        addURI(AUTHORITY, "asteroids/", 1)
+    }
 
     override fun onCreate(): Boolean {
         context?.let {
@@ -72,8 +70,15 @@ class AsteroidProvider : ContentProvider() {
         return cursor
     }
 
-    override fun getType(p0: Uri): String? {
-        TODO("Not yet implemented")
+    override fun getType(uri: Uri): String {
+        return when (uriMatcher.match(uri)) {
+            1 -> {
+                "vnd.android.cursor.dir/vnd.$AUTHORITY.asteroids"
+            }
+            else -> {
+                "Uri not found"
+            }
+        }
     }
 
     override fun insert(p0: Uri, p1: ContentValues?): Uri? {
